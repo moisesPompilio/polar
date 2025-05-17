@@ -12,6 +12,7 @@ import {
   CLightningNode,
   CommonNode,
   EclairNode,
+  LdkNode,
   LightningNode,
   LitdNode,
   LndNode,
@@ -143,6 +144,14 @@ class DockerService implements DockerLibrary {
         const eclair = node as EclairNode;
         const backend = bitcoin.find(n => n.name === eclair.backendName) || bitcoin[0];
         file.addEclair(eclair, backend);
+      }
+      if (node.implementation === 'LDK') {
+        const ldk = node as LdkNode;
+        const backend = bitcoin.find(n => n.name === ldk.backendName) || bitcoin[0];
+        debug(`ldk backend: ${JSON.stringify(backend)}`);
+        debug(`ldk backend: ${backend.ports.rpc}`);
+
+        file.addLdk(ldk, backend, backend.ports.rpc.toString());
       }
       if (node.implementation === 'litd') {
         const litd = node as LitdNode;

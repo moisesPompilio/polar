@@ -3,6 +3,7 @@ import {
   CLightningNode,
   CommonNode,
   EclairNode,
+  LdkNode,
   LitdNode,
   LndNode,
   TapdNode,
@@ -14,7 +15,7 @@ import {
   litdCredentials,
 } from 'utils/constants';
 import { getContainerName, getDefaultCommand } from 'utils/network';
-import { bitcoind, clightning, eclair, litd, lnd, tapd } from './nodeTemplates';
+import { bitcoind, clightning, eclair, ldk, litd, lnd, tapd } from './nodeTemplates';
 
 export interface ComposeService {
   image: string;
@@ -145,6 +146,28 @@ class ComposeFile {
     const command = this.mergeCommand(nodeCommand, variables);
     // add the docker service
     const svc = eclair(name, container, image, rest, p2p, command);
+    this.addService(svc);
+  }
+
+  addLdk(node: LdkNode, backend: CommonNode, rpcPort: string) {
+    const { name, version, ports } = node;
+    const { rest, p2p } = ports;
+    const container = getContainerName(node);
+    // define the variable substitutions
+    const variables = {
+      name: node.name,
+      rpcPort,
+      rpcUser: bitcoinCredentials.user,
+      rpcPass: bitcoinCredentials.pass,
+    };
+    // use the node's custom image or the default for the implementation
+    const image = node.docker.image || `${dockerConfigs.LDK.imageName}:${version}`;
+    // use the node's custom command or the default for the implementation
+    const nodeCommand = node.docker.command || getDefaultCommand('LDK', version);
+    // replace the variables in the command
+    const command = this.mergeCommand(nodeCommand, variables);
+    // add the docker service
+    const svc = ldk(name, container, image, rest, p2p, command);
     this.addService(svc);
   }
 

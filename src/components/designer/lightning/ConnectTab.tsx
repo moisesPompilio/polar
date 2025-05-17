@@ -6,6 +6,7 @@ import { usePrefixedTranslation } from 'hooks';
 import {
   CLightningNode,
   EclairNode,
+  LdkNode,
   LightningNode,
   LitdNode,
   LndNode,
@@ -131,6 +132,16 @@ const ConnectTab: React.FC<Props> = ({ node }) => {
           },
           p2pUriExternal: `${pubkey}@127.0.0.1:${eln.ports.p2p}`,
           authTypes: ['basic'],
+        };
+      } else if (node.implementation === 'LDK') {
+        const ldk = node as LdkNode;
+        return {
+          restUrl: `http://127.0.0.1:${ldk.ports.rest}`,
+          restDocsUrl:
+            'https://github.com/lightningdevkit/ldk-server/blob/main/ldk-server-protos/src/proto/api.proto',
+          credentials: {},
+          p2pUriExternal: `${pubkey}@127.0.0.1:${ldk.ports.p2p}`,
+          authTypes: [],
         };
       } else if (node.implementation === 'litd') {
         const litd = node as LitdNode;

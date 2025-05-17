@@ -120,6 +120,30 @@ export const eclair = (
   ],
 });
 
+export const ldk = (
+  name: string,
+  container: string,
+  image: string,
+  restPort: number,
+  p2pPort: number,
+  command: string,
+): ComposeService => ({
+  image,
+  container_name: container,
+  hostname: name,
+  command: trimInside(command),
+  restart: 'always',
+  volumes: [`./volumes/${dockerConfigs.LDK.volumeDirName}/${name}:/home/ldk/.ldk`],
+  expose: [
+    '3002', // REST
+    '3001', // p2p
+  ],
+  ports: [
+    `${restPort}:3002`, // REST
+    `${p2pPort}:3001`, // p2p
+  ],
+});
+
 export const tapd = (
   name: string,
   container: string,

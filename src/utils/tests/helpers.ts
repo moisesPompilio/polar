@@ -18,6 +18,11 @@ export const testManagedImages: ManagedImage[] = [
     command: '',
   },
   {
+    implementation: 'LDK',
+    version: defaultRepoState.images.LDK.latest,
+    command: '',
+  },
+  {
     implementation: 'bitcoind',
     version: defaultRepoState.images.bitcoind.latest,
     command: '',
@@ -157,6 +162,10 @@ export const testRepoState: DockerRepoState = {
       latest: '0.10.0',
       versions: ['0.10.0', '0.9.0', '0.8.0', '0.7.0', '0.6.2', '0.5.0'],
     },
+    LDK: {
+      latest: '0.1-alfa',
+      versions: ['0.1-alfa'],
+    },
     bitcoind: {
       latest: '29.0',
       versions: [
@@ -223,6 +232,7 @@ export const getNetwork = (
     lndNodes: 2,
     clightningNodes: 1,
     eclairNodes: 1,
+    ldkNodes: 0,
     bitcoindNodes: 1,
     tapdNodes: 0,
     litdNodes: 0,

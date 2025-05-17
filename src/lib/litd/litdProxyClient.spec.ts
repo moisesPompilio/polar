@@ -14,6 +14,7 @@ describe('LitdProxyClient', () => {
     lndNodes: 0,
     clightningNodes: 0,
     eclairNodes: 0,
+    ldkNodes: 0,
     bitcoindNodes: 1,
     tapdNodes: 0,
     litdNodes: 1,

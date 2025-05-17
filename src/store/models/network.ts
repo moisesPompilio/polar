@@ -23,6 +23,7 @@ import {
   createBitcoindNetworkNode,
   createCLightningNetworkNode,
   createEclairNetworkNode,
+  createLdkNetworkNode,
   createLitdNetworkNode,
   createLndNetworkNode,
   createNetwork,
@@ -47,6 +48,7 @@ interface AddNetworkArgs {
   lndNodes: number;
   clightningNodes: number;
   eclairNodes: number;
+  ldkNodes: number;
   bitcoindNodes: number;
   tapdNodes: number;
   litdNodes: number;
@@ -279,6 +281,7 @@ const networkModel: NetworkModel = {
         lndNodes: payload.lndNodes,
         clightningNodes: payload.clightningNodes,
         eclairNodes: payload.eclairNodes,
+        ldkNodes: payload.ldkNodes,
         bitcoindNodes: payload.bitcoindNodes,
         tapdNodes: payload.tapdNodes,
         litdNodes: payload.litdNodes,
@@ -301,6 +304,7 @@ const networkModel: NetworkModel = {
           LND: payload.lndNodes,
           'c-lightning': payload.clightningNodes,
           eclair: payload.eclairNodes,
+          LDK: payload.ldkNodes,
           bitcoind: payload.bitcoindNodes,
           tapd: payload.tapdNodes,
           litd: payload.litdNodes,
@@ -367,6 +371,17 @@ const networkModel: NetworkModel = {
             docker,
             undefined,
             settings.basePorts.eclair,
+          );
+          network.nodes.lightning.push(node);
+          break;
+        case 'LDK':
+          node = createLdkNetworkNode(
+            network,
+            version,
+            dockerRepoState.images.LDK.compatibility,
+            docker,
+            undefined,
+            settings.basePorts.LDK,
           );
           network.nodes.lightning.push(node);
           break;

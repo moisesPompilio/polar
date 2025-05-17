@@ -61,6 +61,7 @@ describe('Network model', () => {
     lndNodes: 2,
     clightningNodes: 1,
     eclairNodes: 1,
+    ldkNodes: 1,
     bitcoindNodes: 1,
     tapdNodes: 0,
     litdNodes: 1,

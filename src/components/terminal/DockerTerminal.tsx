@@ -41,13 +41,13 @@ const green = (text: string) => `\x1b[32m${text}\u001b[0m`;
 const randColor = (text: string) =>
   `\x1b[3${Math.floor(Math.random() * 6) + 1}m${text}\u001b[0m`;
 const polar = `
-   ____    U  ___ u   _        _       ____     
-U |  _"\\ u  \\/"_ \\/  |"|   U  /"\\  uU |  _"\\ u  
- \\| |_) |/  | | | |U | | u  \\/ _ \\/  \\| |_) |/  
-  |  __/.-,_| |_| | \\| |/__ / ___ \\   |  _ <    
-  |_|    \\_)-\\___/   |_____|_/   \\_\\  |_| \\_\\   
-  ||>>_       \\\\     //  \\\\ \\\\    >>  //   \\\\_  
- (__)__)     (__)   (_")("_)__)  (__)(__)  (__) 
+   ____    U  ___ u   _        _       ____
+U |  _"\\ u  \\/"_ \\/  |"|   U  /"\\  uU |  _"\\ u
+ \\| |_) |/  | | | |U | | u  \\/ _ \\/  \\| |_) |/
+  |  __/.-,_| |_| | \\| |/__ / ___ \\   |  _ <
+  |_|    \\_)-\\___/   |_____|_/   \\_\\  |_| \\_\\
+  ||>>_       \\\\     //  \\\\ \\\\    >>  //   \\\\_
+ (__)__)     (__)   (_")("_)__)  (__)(__)  (__)
 `
   .split('')
   .map(char => (['U', 'u'].includes(char) ? randColor(char) : char))
@@ -66,6 +66,10 @@ const nodeConfig: Record<string, { user: string; commands: string[] }> = {
   eclair: {
     user: 'eclair',
     commands: [`alias eclair-cli="eclair-cli -p ${eclairCredentials.pass}"`],
+  },
+  LDK: {
+    user: 'ldk',
+    commands: [`alias ldk-server-cli="./target/debug/ldk-server-cli -b localhost:3002"`],
   },
   bitcoind: {
     user: 'bitcoin',

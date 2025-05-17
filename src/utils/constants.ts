@@ -3,6 +3,7 @@ import { DockerConfig, DockerRepoState } from 'types';
 import bitcoindLogo from 'resources/bitcoin.svg';
 import clightningLogo from 'resources/clightning.png';
 import eclairLogo from 'resources/eclair.png';
+import ldkLogo from 'resources/ldk.png';
 import litdLogo from 'resources/litd.svg';
 import lndLogo from 'resources/lnd.png';
 import tapLogo from 'resources/tap.svg';
@@ -68,6 +69,10 @@ export const BasePorts: Record<NodeImplementation, Record<string, number>> = {
   eclair: {
     rest: 8281,
     p2p: 9935,
+  },
+  LDK: {
+    rest: 3002,
+    p2p: 3001,
   },
   btcd: {},
   tapd: {
@@ -192,6 +197,27 @@ export const dockerConfigs: Record<NodeImplementation, DockerConfig> = {
     ].join('\n  '),
     // if vars are modified, also update composeFile.ts & the i18n strings for cmps.nodes.CommandVariables
     variables: ['name', 'eclairPass', 'backendName', 'rpcUser', 'rpcPass'],
+  },
+  LDK: {
+    name: 'LDK',
+    imageName: 'ldk-image',
+    logo: ldkLogo,
+    platforms: ['mac', 'linux', 'windows'],
+    volumeDirName: 'ldk',
+    command: [
+      '--network=regtest',
+      '--listening-address=localhost:3001',
+      '--rest-service-address=0.0.0.0:3002',
+      '--bitcoind-rpc-address=127.0.0.1:{{rpcPort}}',
+      '--bitcoind-rpc-user={{rpcUser}}',
+      '--bitcoind-rpc-password={{rpcPass}}',
+      // '--data-dir=/home/ldk/.ldk',
+      '/app/target/release/ldk-server',
+      '/app/config.toml',
+      // '/app/target/release/ldk-server /app/ldk-server/ldk-server-config.toml',
+    ].join('\n  '),
+    // if vars are modified, also update composeFile.ts & the i18n strings for cmps.nodes.CommandVariables
+    variables: ['name', 'rpcPort', 'rpcUser', 'rpcPass'],
   },
   bitcoind: {
     name: 'Bitcoin Core',
@@ -369,6 +395,10 @@ export const defaultRepoState: DockerRepoState = {
     eclair: {
       latest: '0.12.0',
       versions: ['0.12.0', '0.11.0', '0.10.0', '0.9.0'],
+    },
+    LDK: {
+      latest: '0.1-alfa',
+      versions: ['0.1-alfa'],
     },
     bitcoind: {
       latest: '29.0',
